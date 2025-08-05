@@ -1,6 +1,7 @@
 "use client"
 import { useRef } from "react";
 import Link from 'next/link';
+import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -27,6 +28,12 @@ export default function Slider() {
       <Swiper
         loop={true}
         modules={[Navigation, Pagination]}
+        onBeforeInit={(swiper) => {
+          // @ts-ignore
+          swiper.params.navigation.prevEl = prevRef.current;
+          // @ts-ignore
+          swiper.params.navigation.nextEl = nextRef.current;
+        }}
         navigation={{
           prevEl: prevRef.current,
           nextEl: nextRef.current,
@@ -50,17 +57,36 @@ export default function Slider() {
         {slides.map((slide, idx) => (
           <SwiperSlide key={idx} className='!w-full md:!w-[800px]'>
             <Link href={slide.url}>
-              <img className='w-full' src={slide.img} alt={`slide-${idx + 1}`} />
+              <Image
+                className='w-full'
+                src={slide.img}
+                alt={`slide-${idx + 1}`}
+                width={1000}
+                height={480}
+                priority={idx === 0}
+              />
             </Link>
           </SwiperSlide>
         ))}
       </Swiper>
       <div className='flex justify-end gap-2 md:gap-4 w-full mt-4 md:mt-8 pr-2 md:pr-4'>
         <button className='flex justify-center items-center text-[0px] w-6 md:w-8 h-6 md:h-8 bg-black rounded-full z-10' ref={prevRef}>
-          <img className='w-3 md:w-4 rotate-180' src="/img/swiper/icon_arrow_navigation.svg" alt="prev" />
+          <Image
+            className='w-3 md:w-4 rotate-180'
+            src="/img/swiper/icon_arrow_navigation.svg"
+            alt="prev"
+            width={24}
+            height={24}
+          />
         </button>
         <button className='flex justify-center items-center text-[0px] w-6 md:w-8 h-6 md:h-8 bg-black rounded-full z-10' ref={nextRef}>
-          <img className='w-3 md:w-4' src="/img/swiper/icon_arrow_navigation.svg" alt="next" />
+          <Image
+            className='w-3 md:w-4'
+            src="/img/swiper/icon_arrow_navigation.svg"
+            alt="next"
+            width={24}
+            height={24}
+          />
         </button>
       </div>
     </>

@@ -1,5 +1,5 @@
 "use client"
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import Link from 'next/link';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -22,23 +22,32 @@ const slides = [
 export default function Slider() {
   const prevRef = useRef<HTMLButtonElement | null>(null);
   const nextRef = useRef<HTMLButtonElement | null>(null);
+  const swiperRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (
+      swiperRef.current &&
+      swiperRef.current.params &&
+      prevRef.current &&
+      nextRef.current
+    ) {
+      swiperRef.current.params.navigation.prevEl = prevRef.current;
+      swiperRef.current.params.navigation.nextEl = nextRef.current;
+      swiperRef.current.navigation.init();
+      swiperRef.current.navigation.update();
+    }
+  }, []);
 
   return (
     <>
       <Swiper
         loop={true}
         modules={[Navigation, Pagination]}
-        onBeforeInit={(swiper) => {
-          // @ts-ignore
-          swiper.params.navigation.prevEl = prevRef.current;
-          // @ts-ignore
-          swiper.params.navigation.nextEl = nextRef.current;
-        }}
+        onSwiper={(swiper) => (swiperRef.current = swiper)}
         navigation={{
           prevEl: prevRef.current,
           nextEl: nextRef.current,
         }}
-        // pagination={{ clickable: true }}
         breakpoints={{
           0: {
             slidesPerView: 1,
@@ -51,8 +60,6 @@ export default function Slider() {
             centeredSlides: true,
           },
         }}
-        // onSlideChange={() => console.log('slide change')}
-        // onSwiper={(swiper) => console.log(swiper)}
       >
         {slides.map((slide, idx) => (
           <SwiperSlide key={idx} className='!w-full md:!w-[800px]'>

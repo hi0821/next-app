@@ -11,10 +11,10 @@ import 'swiper/css/pagination';
 const slides = [
   { url: '/about', img: '/img/swiper/image_01.jpg' },
   { url: '/works', img: '/img/swiper/image_01.jpg' },
-  { url: '/contact', img: '/img/swiper/image_01.jpg' },
+  { url: '/demo', img: '/img/swiper/image_01.jpg' },
   { url: '/about', img: '/img/swiper/image_01.jpg' },
   { url: '/works', img: '/img/swiper/image_01.jpg' },
-  { url: '/contact', img: '/img/swiper/image_01.jpg' },
+  { url: '/demo', img: '/img/swiper/image_01.jpg' },
 ]
 
 
